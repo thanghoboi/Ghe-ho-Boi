@@ -1,17 +1,17 @@
 <?php
 
+
 /**
  * Ghế Nằm Hồ Bơi
  * ============================================================================
  * * Ghế Nằm Hồ Bơi đang được triển khai tại công ty Ngọc Hùng
- * Website: http://www.ecshop.com锛
+ * Website: https://thanghoboi.com
  * ----------------------------------------------------------------------------
  * Các bạn có thể tải về và sử dụng
  * ============================================================================
  * $Author: Nguyễn Lân $
  * $Id: pm.php 17217 2019-06-21 06:29:08Z liubo $
 */
-
 define('IN_ECS', true);
 
 require(dirname(__FILE__) . '/includes/init.php');
