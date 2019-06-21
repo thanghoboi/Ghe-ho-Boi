@@ -1,0 +1,330 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+{if $description}<meta name="description" content="{$description}"/>{/if}
+{if $keywords}<meta name="keywords" content="{$keywords}"/>{/if}
+<title>{$page_title}</title>
+{include file='library/html_header.lbi'}
+</head>
+<body id="page_{$pname}"{if $option.three_column} class="three_col"{/if}>
+{include file='library/page_header.lbi'}
+<div id="content"><div class="container">
+	<div class="col_main">
+	{$render.before_col_main}
+	{if $shop_notice}<div class="shop_notice notice_box">{$shop_notice}</div>{/if}
+	<!-- TemplateBeginEditable name="主栏上方" -->
+<!-- TemplateEndEditable -->
+	{include file='library/index_ad.lbi'}
+	<!-- TemplateBeginEditable name="主栏" -->
+<!-- #BeginLibraryItem "/library/recommend_promotion.lbi" -->
+{if $promotion_goods}
+<div class="box promotion_goods special_goods">
+	<div class="hd">
+		<h3>{$lang.promotion_goods}</h3>
+		<div class="extra">
+		</div>
+	</div>
+	<div class="bd goods_list">
+		<div class="goods_slider">
+		<ul>
+			{foreach from=$promotion_goods item=goods name=promotion_goods}
+			<li{if $smarty.foreach.promotion_goods.index %4==0} class="first_child"{/if} data="id:'{$goods.id}'">
+				<span class="time">{hula:promote_end_date id=$goods.id format=$lang.promote_end_date_format format2='Y-m-d-G-i-s'}</span>
+				<span class="photo">
+					<a href="{$goods.url}" title="{$goods.name|escape:html}" class="image"><img src="{$option.static_path}{$goods.thumb}" alt="{$goods.name|escape:html}"/></a>
+				</span>
+				<span class="info">
+					<a href="{$goods.url}" title="{$goods.name|escape:html}" class="name">{$goods.short_style_name}</a>
+					<em class="price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</em>{if $goods.promote_price}<span class="promo" title="{$goods.shop_price|escape:html} &gt; {$goods.promote_price|escape:html}">{$lang.sale}</span>{/if}
+				</span>
+			</li>
+			{/foreach}
+		</ul>
+		</div>
+		<a href="search.php?intro=promotion" title="{$lang.more}{$lang.promotion_goods}" class="more button brighter_button"><span>{$lang.more}</span></a>
+	</div>
+</div>
+{/if}
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/recommend_new.lbi" -->
+{if $new_goods}
+{if $cat_rec_sign neq 1}
+<div class="box{if $pname eq 'index'} extra_box{else} special_box{/if} new_goods">
+	<div class="hd">
+		<h3>{$lang.new_goods}</h3>
+		<div class="extra">
+			{if $cat_rec[2]}
+			<p class="selector" id="itemNew">
+				<a href="javascript:void(0)" onclick="getRecommend(2, 0);" class="current"><span>{$lang.all_goods}</span></a>
+				{foreach from=$cat_rec[2] item=rec_data}
+				<a href="javascript:void(0)" onclick="getRecommend(2, {$rec_data.cat_id})"><span>{$rec_data.cat_name}</span></a>
+				{/foreach}
+			</p>
+			{/if}
+		</div>
+	</div>
+	<div class="bd goods_list">
+		<div id="show_new">
+			{/if}
+			<ul>
+				{foreach from=$new_goods item=goods name=new_goods}
+				<li{if $smarty.foreach.new_goods.index %4==0} class="first_child"{/if} data="id:'{$goods.id}'">
+					<span class="photo">
+						<a href="{$goods.url}" title="{$goods.name|escape:html}" class="image"><img src="{$option.static_path}{$goods.thumb}" alt="{$goods.name|escape:html}"/></a>
+					</span>
+					<span class="info">
+						<a href="{$goods.url}" title="{$goods.name|escape:html}" class="name">{$goods.short_style_name}</a>
+						<em class="price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</em>{if $goods.promote_price}<span class="promo" title="{$goods.shop_price|escape:html} &gt; {$goods.promote_price|escape:html}">{$lang.sale}</span>{/if}
+					</span>
+				</li>
+				{/foreach}
+			</ul>
+			{if $cat_rec_sign neq 1}
+		</div>
+		<a href="search.php?intro=new" title="{$lang.more}{$lang.new_goods}" class="more button brighter_button"><span>{$lang.more}</span></a>
+	</div>
+</div>
+{/if}
+{/if}
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/recommend_best.lbi" -->
+{if $best_goods}
+{if $cat_rec_sign neq 1}
+<div class="box{if $pname eq 'index'} extra_box{else} special_box{/if} best_goods">
+	<div class="hd">
+		<h3>{$lang.best_goods}</h3>
+		<div class="extra">
+			{if $cat_rec[1]}
+			<p class="selector" id="itemBest">
+				<a href="javascript:void(0)" onclick="getRecommend(1, 0);" class="current"><span>{$lang.all_goods}</span></a>
+				{foreach from=$cat_rec[1] item=rec_data}
+				<a href="javascript:void(0)" onclick="getRecommend(1, {$rec_data.cat_id})"><span>{$rec_data.cat_name}</span></a>
+				{/foreach}
+			</p>
+			{/if}
+		</div>
+	</div>
+	<div class="bd goods_list">
+		<div id="show_best">
+			{/if}
+			<ul>
+				{foreach from=$best_goods item=goods name=best_goods}
+				<li{if $smarty.foreach.best_goods.index %4==0} class="first_child"{/if} data="id:'{$goods.id}'">
+					<span class="photo">
+						<a href="{$goods.url}" title="{$goods.name|escape:html}" class="image"><img src="{$option.static_path}{$goods.thumb}" alt="{$goods.name|escape:html}"/></a>
+					</span>
+					<span class="info">
+						<a href="{$goods.url}" title="{$goods.name|escape:html}" class="name">{$goods.short_style_name}</a>
+						<em class="price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.shop_price}{/if}</em>{if $goods.promote_price}<span class="promo" title="{$goods.shop_price|escape:html} &gt; {$goods.promote_price|escape:html}">{$lang.sale}</span>{/if}
+					</span>
+				</li>
+				{/foreach}
+			</ul>
+			{if $cat_rec_sign neq 1}
+		</div>
+		<a href="search.php?intro=best" title="{$lang.more}{$lang.best_goods}" class="more button brighter_button"><span>{$lang.more}</span></a>
+	</div>
+</div>
+{/if}
+{/if}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+	<!-- TemplateBeginEditable name="主栏下方" -->
+<!-- TemplateEndEditable -->
+	{$render.after_col_main}
+	</div>
+	<div class="col_sub">
+	{$render.before_col_sub}
+	<!-- TemplateBeginEditable name="侧栏上方" -->
+<!-- TemplateEndEditable -->
+	<!-- TemplateBeginEditable name="侧栏" -->
+<!-- #BeginLibraryItem "/library/category_tree.lbi" -->
+{if $pname neq 'index'}
+
+{if $pname eq 'category'}
+{hula:category_tree_3 id=$category}
+{elseif $pname eq 'goods'}
+{hula:category_tree_3 id=$goods.cat_id}
+{else}
+<div class="category box fancy_box">
+	<div class="hd"><h3>{$lang.goods_category}</h3><div class="extra"></div></div>
+	<div class="bd{if $option.hide_category_extra} hide_extra{/if}">
+		<ul class="level_1 clearfix">
+			{foreach from=$categories item=cat name=categories}
+			<li class="level_1{if $smarty.foreach.categories.first} first{/if}">
+				<p class="level_1"><a href="{$cat.url}" class="level_1"><span>{$cat.name}</span></a></p>
+				{if $cat.cat_id}
+				<div class="sub_cat_lv1">
+					<div class="inner_lv1">
+						<ul class="level_2 clearfix">
+							{foreach from=$cat.cat_id item=child name=child_cat}
+							<li class="level_2 clearfix{if $smarty.foreach.child_cat.first} level_2_first{/if}">
+								<a href="{$child.url}" class="level_2"><span>{$child.name}</span></a>
+								{if $child.cat_id}
+								<div class="sub_cat_lv2">
+									<div class="inner_lv2">
+										<div class="arrow"></div>
+										<ul class="level_3 clearfix">
+											{foreach from=$child.cat_id item=childer name=childer_cat}
+											<li class="level_3"><a href="{$childer.url}" class="level_3"><span>{$childer.name}</span></a></li>
+											{/foreach}
+										</ul>
+									</div>
+								</div>
+								{/if}
+							</li>
+							{/foreach}
+						</ul>
+					</div>
+				</div>
+				{/if}
+			</li>
+			{/foreach}
+		</ul>
+	</div>
+</div>
+{/if}
+{else}
+{include file='library/all_category.lbi'}
+{/if}
+
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/order_query.lbi" -->
+{if empty($order_query)}
+<div class="order_query box">
+	<div class="hd"><h3>{$lang.order_query}</h3><div class="extra"></div></div>
+	<div class="bd" id="order_query">
+		<form action="" class="main">
+			<input type="text" name="order_sn" title="{$lang.invalid_order_sn}" class="input"/>
+			<input type="button" value="{$lang.query_order}" class="btn_s4"/>
+		</form>
+	</div>
+</div>
+{else}
+	{if $order_query.user_id}<p><em>{$lang.order_number}</em><span><a href="user.php?act=order_detail&order_id={$order_query.order_id}" >{$order_query.order_sn}</a></span></p>{else}<p><em>{$lang.order_number}</em><span>{$order_query.order_sn}</span></p>{/if}
+	<p><em>{$lang.order_status}</em><span>{$order_query.order_status}</span></p>
+	{if $order_query.invoice_no }<p><em>{$lang.consignment}</em><span>{$order_query.invoice_no}</span></p>{/if}
+	{if $order_query.shipping_date}<p><em>{$lang.shipping_date}</em><span>{$order_query.shipping_date}</span></p>{/if}
+{/if}
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/invoice_query.lbi" -->
+{if $invoice_list}
+<div class="invoice_list box">
+	<div class="hd"><h3>{$lang.invoice_list}</h3><div class="extra"></div></div>
+	<div class="bd">
+		<div class="vertical_slider_wrapper">
+		<div class="vertical_slider">
+		<ul>
+			{foreach from=$invoice_list item=invoice name=invoice_list}
+			<li{if $smarty.foreach.invoice_list.first} class="first"{/if}>
+				<em class="title">{$lang.order_number}</em><span class="data">{$invoice.order_sn}</span>
+				<em class="title">{$lang.consignment}</em><span class="data">{$invoice.invoice_no}</span>
+			</li>
+			{/foreach}
+		</ul>
+		</div>
+		</div>
+	</div>
+</div>
+{/if}
+
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/vote_list.lbi" -->
+{insert name='vote'}
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+	<!-- TemplateBeginEditable name="侧栏下方" -->
+<!-- TemplateEndEditable -->
+	{$render.after_col_sub}
+	</div>
+	{if $option.three_column}
+	<div class="col_extra">
+	{$render.before_col_extra}
+	<!-- TemplateBeginEditable name="侧栏二上方" -->
+<!-- TemplateEndEditable -->
+	<!-- TemplateBeginEditable name="侧栏二" -->
+<!-- #BeginLibraryItem "/library/new_articles.lbi" -->
+<div class="new_articles box">
+	<div class="hd"><h3>{$lang.new_article}</h3><div class="extra"></div></div>
+	<div class="bd">	
+		<ul class="text_list">
+			{foreach from=$new_articles item=article name=new_articles}
+			<li{if $smarty.foreach.new_articles.first} class="first"{/if}><a href="{$article.url}" title="{$article.title|escape:html}">{$article.short_title|escape:html}</a></li>
+			{/foreach}
+		</ul>
+	</div>
+</div>
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/brands.lbi" -->
+{if $brand_list}
+<div class="brands box">
+	<div class="hd"><h3>{$lang.brands_list}</h3><div class="extra"></div></div>
+	<div class="bd">
+		<div class="vertical_slider_wrapper">
+		<div class="vertical_slider">
+		<ul>
+			{foreach from=$brand_list item=brand name=brand}
+			{if $smarty.foreach.brand.index lt $option.index_brands_number}
+			{if $brand.brand_logo}
+			<li class="image{if $smarty.foreach.brand.first} first{/if}"><a href="{$brand.url}" title="{$brand.brand_name|escape:html}"><img src="{$option.static_path}data/brandlogo/{$brand.brand_logo}" alt="{$brand.brand_name|escape:html}"/></a></li>
+			{else}
+			<li class="text{if $smarty.foreach.brand.first} first{/if}"><a href="{$brand.url}" title="{$brand.brand_name|escape:html}">{$brand.brand_name}</a></li>
+			{/if}
+			{/if}
+			{/foreach}
+		</ul>
+		</div>
+		</div>
+		<div class="bottom_button"><a href="brand.php" class="btn_s4_b">{$lang.all_brand}</a></div>
+	</div>
+</div>
+{/if}
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/top10.lbi" -->
+{if $top_goods}
+<div class="top_goods box">
+	<div class="hd"><h3>{$lang.top10}</h3><div class="extra"></div></div>
+	<div class="bd goods_list">
+		<ul>
+			{foreach from=$top_goods item=goods name=top_goods}
+			{if $smarty.foreach.top_goods.index < $option.top_number}
+			<li{if $smarty.foreach.top_goods.first} class="first"{/if}{if $smarty.foreach.top_goods.index %4==0} class="first_child"{/if} data="id:'{$goods.goods_id}'">
+				<span class="photo">
+					<a href="{$goods.url}" title="{$goods.goods_name|escape:html}" class="image"><img src="{$option.static_path}{$goods.thumb}" alt="{$goods.goods_name|escape:html}"/></a>
+				</span>
+				<span class="info">
+					<a href="{$goods.url}" title="{$goods.goods_name|escape:html}" class="name"><em>{$smarty.foreach.top_goods.iteration}.&nbsp;</em>{$goods.short_name}</a>
+					<em class="price">{if $goods.promote_price}{$goods.promote_price}{else}{$goods.price}{/if}</em>{if $goods.promote_price}<span class="promo" title="{$goods.shop_price|escape:html} &gt; {$goods.promote_price|escape:html}">{$lang.sale}</span>{/if}
+				</span>
+			</li>
+			{/if}
+			{/foreach}
+		</ul>
+	</div>
+</div>
+{/if}
+ <!-- #EndLibraryItem -->
+<!-- #BeginLibraryItem "/library/email_list.lbi" -->
+<div class="subscription box">
+	<div class="hd"><h3>{$lang.subscription}</h3><div class="extra"></div></div>
+	<div class="bd" id="subscription">
+		<form action="javascript:void(0);">
+			<input type="text" name="email" title="{$lang.email_invalid}" class="input"/>
+			<input type="button" value="{$lang.email_list_ok}" onclick="addEmailList();" class="btn_s1"/>
+			<input type="button" value="{$lang.email_list_cancel}" onclick="cancelEmailList();" class="btn_s1"/>
+		</form>
+	</div>
+</div>
+ <!-- #EndLibraryItem -->
+<!-- TemplateEndEditable -->
+	<!-- TemplateBeginEditable name="侧栏二下方" -->
+<!-- TemplateEndEditable -->
+	{$render.after_col_extra}
+	</div>
+	{/if}
+</div></div>
+{include file='library/page_footer.lbi'}
+{include file='library/html_footer.lbi'}
+</body>
+</html>
